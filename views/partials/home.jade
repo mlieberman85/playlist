@@ -1,0 +1,46 @@
+//
+   Created with JetBrains WebStorm.
+   User: mlieberman
+   Date: 3/27/13
+   Time: 5:56 PM
+   To change this template use File | Settings | File Templates.
+
+div(ng-controller="PlaylistCtrl")
+  .container(fade-in='fade-in')
+    #hero-container.container
+      .hero-unit
+        h1 Playlist Test
+        p Test page for a Playlist
+        br
+        p
+          small
+            | Playlist test written in angular and node.
+        br
+        .pull-left
+          section.clearfix
+
+
+    form(name="newPlaylistForm")
+      input(type="text", name="input", ng-model="playlistName", placeholder="Playlist Name", required)
+      span(class="error", ng-show="newPlaylistForm.input.$error.required") Playlist Name Required!
+      a.btn.btn-large.btn-primary(ng-show="!newPlaylistForm.input.$error.required", ng-click="newPlaylist(playlistName)") New Playlist
+
+    div(class="span12 playlists", droppable, ng-repeat="playlist in playlists")
+      div(draggable, ng-show="!playlistEditable", ng-click="playlistEditable=true")
+        h2 {{playlist.name}}
+          a.btn.btn-large.btn-danger(ng-click="deletePlaylist(playlist)") Delete Playlist
+      div(ng-show="playlistEditable")
+        input(type="text", name="input", ng-model="updatedPlaylist", ng-init="updatedPlaylist=playlist.name")
+        a.btn.btn-large.btn-warning(ng-click="updatePlaylist(playlist, updatedPlaylist);playlistEditable=false;") Update Playlist
+        a.btn.btn-large.btn-danger(ng-click="deletePlaylist(playlist)") Delete Playlist
+      form(name="newSongForm")
+        input(type="text", name="input", ng-model="songName", placeholder="Song Name", required)
+        span(class="error", ng-show="newSongForm.input.$error.required") Song Name Required!
+        a.btn.btn-medium.btn-primary(ng-show="!newSongForm.input.$error.required", ng-click="addSong(playlist, songName)") New Song
+      div(class="span8 songs", droppable, ng-repeat="song in playlist.songs")
+        div(ng-show="!songEditable", draggable, data-index="{{$index}}", ng-model="song.name", ng-click="songEditable=true") {{song.name}}
+          a.btn.btn-small.btn-danger(ng-click="deleteSong(playlist, song)") Delete Song
+        div(ng-show="songEditable")
+          input(type="text", name="input", ng-model="updatedSong", ng-init="updatedSong=song.name")
+          a.btn.btn-small.btn-warning(ng-click="updateSong(playlist, song, updatedSong);songEditable=false;") Update Song
+          a.btn.btn-small.btn-danger(ng-click="deleteSong(playlist, song)") Delete Song
