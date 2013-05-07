@@ -33,7 +33,7 @@ directives.directive('draggable', function() {
     restrict: 'A',
     link: function(scope, element, attrs) {
       element.draggable({
-        revert: true,
+        revert: "invalid",
         start: function(event, ui) {
           //console.log("drag started");
         },
@@ -53,11 +53,10 @@ directives.directive('droppable', function($compile){
         //accept: ".itemHeader",
         //hoverClass: "drop-hover",
         drop: function(event, ui){
-          console.log("dropped");
           var dragIndex = angular.element(ui.draggable).data('index'),
             dragE1 = angular.element(ui.draggable).parent(),
             dropE1 = angular.element(this);
-          console.log("index: " + index);
+          console.log("index: " + dragIndex);
           //console.log("dragE1: " + JSON.stringify(dragE1));
           //console.log("dropE1: " + JSON.stringify(dropE1));
           if(dragE1.hasClass('playlists') && dropE1.hasClass('playlists')) {
@@ -68,7 +67,7 @@ directives.directive('droppable', function($compile){
             scope.songs.push(scope.songs[dragIndex]);
             scope.songs.splice(dragIndex, 1);
           }
-          $scope.$apply();
+          scope.$apply();
         }
       });
     }
